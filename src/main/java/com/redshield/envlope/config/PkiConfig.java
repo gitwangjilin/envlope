@@ -23,8 +23,5 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "pki-config")
 public class PkiConfig {
     private String dllName;
-    private String pkiKeyLable;
     private String pkiKeyPasswd;
-    private int pkiKeyAlgo;
-    private int pkiHashAlgo;
 }

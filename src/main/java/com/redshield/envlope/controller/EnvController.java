@@ -5,9 +5,10 @@ import com.framework.core.pki.algo.AsymmAlgo;
 import com.framework.core.pki.algo.SymmAlgo;
 import com.framework.core.pki.util.EnvelopeObject;
 import com.framework.core.pki.util.ServerCertKey;
-import com.redshield.envlope.entity.SignParamet;
+import com.redshield.envlope.entity.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,21 +36,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class EnvController {
     @ApiOperation(value = "数字信封加解密")
     @PostMapping("makeEnvelopeOpenEnvelope")
-    public String makeEnvelopeOpenEnvelope(@RequestBody SignParamet signParamet) {
-        return openEnvelope(makeEnvelope(signParamet.getCert(), signParamet.getData()), signParamet.getCert(), signParamet.getKeyLable());
+    public String makeEnvelopeOpenEnvelope(@RequestBody MakeOpenEnvelopeParamet makeOpenEnvelopeParamet) {
+        return openEnvelope(makeEnvelope(makeOpenEnvelopeParamet.getCert(), makeOpenEnvelopeParamet.getData()), makeOpenEnvelopeParamet.getCert(), makeOpenEnvelopeParamet.getKeyLable());
     }
 
     @ApiOperation(value = "加密")
-
     @PostMapping("makeEnvelope")
-    public String makeEnvelope(@RequestBody SignParamet signParamet) {
-        return makeEnvelope(signParamet.getCert(), signParamet.getData());
+    public String makeEnvelope(@RequestBody @ApiParam(name="加密对象",value="传入json格式",required=true) MakeEnvelopeParamet makeEnvelopeParamet) {
+        return makeEnvelope(makeEnvelopeParamet.getCert(), makeEnvelopeParamet.getData());
     }
 
     @ApiOperation(value = "解密")
     @PostMapping("openEnvelope")
-    public String openEnvelope(@RequestBody SignParamet signParamet) {
-        return openEnvelope(signParamet.getSignData(), signParamet.getCert(), signParamet.getKeyLable());
+    public String openEnvelope(@RequestBody @ApiParam(name="解密对象",value="传入json格式",required=true) OpenEnvelopeParamet openEnvelopeParamet) {
+        return openEnvelope(openEnvelopeParamet.getEnvData(), openEnvelopeParamet.getCert(), openEnvelopeParamet.getKeyLable());
     }
 
     /**

@@ -47,7 +47,7 @@ public class EnvService {
             serverKey.setPkidllName(pkiConfig.getDllName());
             serverKey.setB64ServerCert(cert);
             serverKey.setKeyAlgo(AsymmAlgo.asymmAlgo.SM2);
-            serverKey.setKeyLable(pkiConfig.getPkiKeyLable());//密码机索引号
+            serverKey.setKeyLable("14");//密码机索引号
             serverKey.setKeyLength(256);
             serverKey.setKeyPasswd(pkiConfig.getPkiKeyPasswd());//密码机密码
             decData = comm.openEnvelope(env, serverKey);

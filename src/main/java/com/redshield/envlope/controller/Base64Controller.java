@@ -1,11 +1,12 @@
 package com.redshield.envlope.controller;
 
-import com.redshield.envlope.entity.SignParamet;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,28 +35,33 @@ public class Base64Controller {
     final Base64.Decoder decoder = Base64.getDecoder();
     final Base64.Encoder encoder = Base64.getEncoder();
 
+    @GetMapping("encode")
     @ApiOperation(value = "编码")
-    @PostMapping("encode")
-    public String encode(@RequestBody SignParamet signParamet) {
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "encode", value = "字符串", dataType = "String", required = true)
+    )
+    public String encode(String encode) {
         try {
-            System.out.println(encoder.encodeToString(signParamet.getBase64Data().getBytes("UTF-8")));
-            return encoder.encodeToString(signParamet.getBase64Data().getBytes("UTF-8"));
+            return encoder.encodeToString(encode.getBytes("UTF-8"));
         } catch (UnsupportedEncodingException e) {
             log.error(e.getMessage());
             e.printStackTrace();
         }
-        return "编码失败";
+        return "error";
     }
 
+    @GetMapping("decode")
     @ApiOperation(value = "解码")
-    @PostMapping("decode")
-    public String decode(@RequestBody SignParamet signParamet) {
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "decode", value = "base64码", dataType = "String", required = true)
+    )
+    public String decode(String decode) {
         try {
-            return new String(decoder.decode(signParamet.getBase64Data()), "UTF-8");
+            return new String(decoder.decode(decode), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             log.error(e.getMessage());
             e.printStackTrace();
         }
-        return "解码失败";
+        return "error";
     }
 }

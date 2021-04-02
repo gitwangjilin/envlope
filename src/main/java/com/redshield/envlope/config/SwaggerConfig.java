@@ -42,8 +42,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("创建测试企业")
-                .description("创建测试企业")
+                .title("密码机相关功能")
+                .description("密码机相关功能")
                 .termsOfServiceUrl("http://localhost:8080/doc.html")
                 .contact(new Contact("", "http://localhost:8080/doc.html", ""))
                 .version("V1.0")
