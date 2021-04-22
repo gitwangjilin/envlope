@@ -1,13 +1,15 @@
-package com.redshield.envlope.entity;
+package com.redshield.envlope.paramet;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /*************************************************************************
  ******
  * - Copyright (c) 2021 redshield.com
- * - File Name: MakeSystemCertParamet
+ * - File Name: P10Paramet
  * - @Author: WangJiLIn
  * - Description:
  * 接⼝描述
@@ -19,10 +21,10 @@ import lombok.Data;
  *************************************************************************
  ******/
 @Data
-@ApiModel(value="签发证书对象")
-public class MakeSystemCertParamet {
-    @ApiModelProperty(value = "证书")
-    private String p10;
+@ApiModel(value="P10需要参数")
+public class CertParamet {
     @ApiModelProperty(value = "索引号")
     private String keyLable;
+    @ApiModelProperty(value = "P10参数")
+    List<SubjectsList> subjectsLists;
 }

@@ -5,11 +5,15 @@ import com.framework.core.pki.algo.AsymmAlgo;
 import com.framework.core.pki.algo.SymmAlgo;
 import com.framework.core.pki.util.EnvelopeObject;
 import com.framework.core.pki.util.ServerCertKey;
-import com.redshield.envlope.entity.*;
+import com.redshield.envlope.config.PkiConfig;
+import com.redshield.envlope.paramet.MakeEnvelopeParamet;
+import com.redshield.envlope.paramet.MakeOpenEnvelopeParamet;
+import com.redshield.envlope.paramet.OpenEnvelopeParamet;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +38,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping
 public class EnvController {
+
+    @Autowired
+    PkiConfig pkiConfig;
+
     @ApiOperation(value = "数字信封加解密")
     @PostMapping("makeEnvelopeOpenEnvelope")
     public String makeEnvelopeOpenEnvelope(@RequestBody MakeOpenEnvelopeParamet makeOpenEnvelopeParamet) {
@@ -42,24 +50,24 @@ public class EnvController {
 
     @ApiOperation(value = "加密")
     @PostMapping("makeEnvelope")
-    public String makeEnvelope(@RequestBody @ApiParam(name="加密对象",value="传入json格式",required=true) MakeEnvelopeParamet makeEnvelopeParamet) {
+    public String makeEnvelope(@RequestBody @ApiParam(name = "加密对象", value = "传入json格式", required = true) MakeEnvelopeParamet makeEnvelopeParamet) {
         return makeEnvelope(makeEnvelopeParamet.getCert(), makeEnvelopeParamet.getData());
     }
 
     @ApiOperation(value = "解密")
     @PostMapping("openEnvelope")
-    public String openEnvelope(@RequestBody @ApiParam(name="解密对象",value="传入json格式",required=true) OpenEnvelopeParamet openEnvelopeParamet) {
+    public String openEnvelope(@RequestBody @ApiParam(name = "解密对象", value = "传入json格式", required = true) OpenEnvelopeParamet openEnvelopeParamet) {
         return openEnvelope(openEnvelopeParamet.getEnvData(), openEnvelopeParamet.getCert(), openEnvelopeParamet.getKeyLable());
     }
 
     /**
      * 数字信封加密
      */
-    public static String makeEnvelope(String cert, String data) {
+    public String makeEnvelope(String cert, String data) {
         PHPkiComm comm = new PHPkiComm();
         String env = null;
         try {
-            comm.init("libph_sdf.so");
+            comm.init(pkiConfig.getDllName());
             EnvelopeObject envelopeObj = new EnvelopeObject();
             String[] b64Certs = new String[1];
             b64Certs[0] = cert;//电子营业执照系统提供的证书
@@ -86,15 +94,15 @@ public class EnvController {
      * @param env
      * @return
      */
-    public static String openEnvelope(String env, String cert, String keyLable) {
+    public String openEnvelope(String env, String cert, String keyLable) {
         byte[] decData = null;
         //返回原文
         String data = null;
         PHPkiComm comm = new PHPkiComm();
         try {
-            comm.init("libph_sdf.so");
+            comm.init(pkiConfig.getDllName());
             ServerCertKey serverKey = new ServerCertKey();
-            serverKey.setPkidllName("libph_sdf.so");
+            serverKey.setPkidllName(pkiConfig.getDllName());
             serverKey.setB64ServerCert(cert);//你们自己的证书
             serverKey.setKeyAlgo(AsymmAlgo.asymmAlgo.SM2);
             serverKey.setKeyLable(keyLable);//密码机索引号

@@ -1,10 +1,12 @@
 package com.redshield.envlope.controller;
 
 import com.bouncycastle.crypto.digests.SM3Digest;
-import com.redshield.envlope.entity.SignParamet;
+import com.redshield.envlope.paramet.SignParamet;
+import com.redshield.envlope.service.Sm3HashService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,24 +32,13 @@ import sun.misc.BASE64Encoder;
 @RestController
 @RequestMapping
 public class Sm3HashController {
+
+    @Autowired
+    Sm3HashService sm3HashService;
+
     @ApiOperation(value = "sm3Hash")
     @PostMapping("sm3Hash")
-    public String sm3Hash(@RequestBody SignParamet signParamet){
-        return sm3Hash(signParamet.getData());
-    }
-    /**
-     * sm3
-     *
-     * @param data
-     * @return
-     */
-    public String sm3Hash(String data) {
-        BASE64Encoder encoder = new BASE64Encoder();
-        byte[] md = new byte[32];
-        byte[] msg1 = data.getBytes();
-        SM3Digest sm3 = new SM3Digest();
-        sm3.update(msg1, 0, msg1.length);
-        sm3.doFinal(md, 0);
-        return encoder.encode(md);
+    public String sm3Hash(@RequestBody SignParamet signParamet) {
+        return sm3HashService.getSm3Hash(signParamet.getData());
     }
 }

@@ -1,11 +1,67 @@
 server:
   port: 8080
-
 pki-config:
   dll-name: libph_sdf.so
   pki-key-lable: 14
   pki-key-passwd: 1234567a
   pki-key-algo: 131328
   pki-hash-algo: 1
+spring:
+  datasource:
+#    db1:
+#      driver-class-name: dm.jdbc.driver.DmDriver
+#      url: jdbc:dm://192.168.100.111:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
+#      username: LICENCE_APP
+#      password: cntrust123
+#    db2:
+#      driver-class-name: dm.jdbc.driver.DmDriver
+#      url: jdbc:dm://192.168.100.112:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
+#      username: NEWAPP
+#      password: cntrust123
+    #查询系统数据库
+    bizqry:
+      driver-class-name: dm.jdbc.driver.DmDriver
+      jdbc-url: jdbc:dm://192.168.99.35:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
+      username: LICENCE_APP
+      password: cntrust123
+
+    #验证系统数据库
+    auth:
+      driver-class-name: dm.jdbc.driver.DmDriver
+      jdbc-url: jdbc:dm://192.168.99.35:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
+      username: LICENCE_AUTH
+      password: cntrust123
+
+    #受理数据库
+    bizlicence:
+      driver-class-name: dm.jdbc.driver.DmDriver
+      jdbc-url: jdbc:dm://192.168.99.34:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
+      username: LICENCE_MANAGER
+      password: cntrust123
+
+    #小程序数据库
+    littlerprogrammer:
+      driver-class-name: dm.jdbc.driver.DmDriver
+      jdbc-url: jdbc:dm://192.168.99.36:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
+      username: MYBATIS
+      password: cntrust123
+mybatis:
+  # 实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: com.redshield.envlope.entity
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath:/mapper/*
+logging:
+  level:
+    com:
+      redshield:
+        envlope:
+          mapper:
+            debug
+knife4j:
+  enable: true
+  setting:
+    # 对于调试中的请求参数是否缓存进行开启配置，该参数默认为true
+    enableRequestCache: false
 system:
  cert: MIICDjCCAbWgAwIBAgIIICEDJwAAARcwCgYIKoEcz1UBg3UwPjE8MDoGA1UECgwz5Lit5Y2O5Lq65rCR5YWx5ZKM5Zu95Zu95a625bel5ZWG6KGM5pS/566h55CG5oC75bGAMB4XDTIxMDMyNzAyMzkyMloXDTMxMDMyNzAyMzkyMlowfjELMAkGA1UEBgwCQ04xDzANBgNVBAcMBuWMl+S6rDEhMB8GA1UECgwY5biC5Zy655uR552j566h55CG5oC75bGAMRUwEwYDVQQLDAzkv6Hmga/kuK3lv4MxJDAiBgNVBAMMG+aVsOaNruS4reW/g+aOpeWPo+acjeWKoeWZqDBZMBMGByqGSM49AgEGCCqBHM9VAYItA0IABMb+1QCPG8J+9mCpGdfEqk3j0dncegHnvzeHBOHB7mmStufyWMTLwjS5BXIZiSmrJdmJxd2de1OfYBVLQwsSQ8OjXTBbMAwGA1UdEwQFMAMBAf8wCwYDVR0PBAQDAgEGMB8GA1UdIwQYMBaAFMiKA/q3R18Z+K3x4pBflgP5TTe9MB0GA1UdDgQWBBRCrES8sOXBJIh51jUl3NQCNHEmVDAKBggqgRzPVQGDdQNHADBEAiBREqs8gNZ/JX5xFnEVU0kqjPRrmA/5QxZEeigDWhfZkwIgbuNbJBEbeaVNnT8Ri/8pyZ9p8H2lyXnPjnN1rcVfuW8=

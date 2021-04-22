@@ -1,4 +1,4 @@
-package com.redshield.envlope.entity;
+package com.redshield.envlope.paramet;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

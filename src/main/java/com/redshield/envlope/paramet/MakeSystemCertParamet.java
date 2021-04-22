@@ -1,4 +1,4 @@
-package com.redshield.envlope.entity;
+package com.redshield.envlope.paramet;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,7 +7,7 @@ import lombok.Data;
 /*************************************************************************
  ******
  * - Copyright (c) 2021 redshield.com
- * - File Name: MakeOpenEnvelopeParamet
+ * - File Name: MakeSystemCertParamet
  * - @Author: WangJiLIn
  * - Description:
  * 接⼝描述
@@ -19,12 +19,10 @@ import lombok.Data;
  *************************************************************************
  ******/
 @Data
-@ApiModel(value="加解密对象")
-public class MakeOpenEnvelopeParamet {
+@ApiModel(value="签发证书对象")
+public class MakeSystemCertParamet {
     @ApiModelProperty(value = "证书")
-    private String cert;
-    @ApiModelProperty(value = "数据")
-    private String data;
+    private String p10;
     @ApiModelProperty(value = "索引号")
     private String keyLable;
 }

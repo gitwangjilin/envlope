@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redshield.envlope.mapper.bizqry.QueryEnterpriseInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.redshield.envlope.entity.QueryEnterpriseInfo">
+        <id column="ID" property="id"/>
+        <result column="IDCARD_HASH" property="idCardHash"/>
+        <result column="LICENCE_13" property="creditCode"/>
+        <result column="LICENCE_17" property="regNo"/>
+        <result column="LICENCE_18" property="entName"/>
+        <result column="LICENCE_20" property="name"/>
+        <result column="LICENCE_TYPE" property="entType"/>
+        <result column="PHONE_NO" property="phoneNumber"/>
+        <result column="REG_ORG" property="regCode"/>
+        <result column="STATE" property="state"/>
+        <result column="SYNC_DATE" property="syncDate"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+    ID, IDCARD_HASH, LICENCE_13, LICENCE_17, LICENCE_18, LICENCE_20, LICENCE_TYPE, PHONE_NO, REG_ORG, STATE, SYNC_DATE
+</sql>
+    <!--  查询法人执照列表  -->
+    <select id="findIdCardAndOrgCode" resultMap="BaseResultMap">
+        select
+        *
+        from Phone_info
+        <where>
+            and IDCARD_HASH = #{idCardHash}
+        </where>
+    </select>
+</mapper>

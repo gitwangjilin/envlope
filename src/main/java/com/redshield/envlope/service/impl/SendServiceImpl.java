@@ -1,6 +1,6 @@
 package com.redshield.envlope.service.impl;
 
-import com.redshield.envlope.entity.EncParamet;
+import com.redshield.envlope.paramet.EncParamet;
 import com.redshield.envlope.service.EnvService;
 import com.redshield.envlope.service.SendService;
 import org.springframework.beans.factory.annotation.Autowired;

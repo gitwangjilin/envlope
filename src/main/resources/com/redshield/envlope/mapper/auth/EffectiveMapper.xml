@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redshield.envlope.mapper.auth.EffectiveMapper">
+
+<!-- 通用查询映射结果 -->
+<resultMap id="BaseResultMap" type="com.redshield.envlope.entity.Effective">
+        <id column="ID" property="id" />
+        <result column="AREA_CODE" property="areaCode" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="LICENCE_13" property="creditCode" />
+        <result column="LICENCE_17" property="regNo" />
+        <result column="LICENCE_91" property="entType" />
+<!--        <result column="LICENCE_ENTITY" property="licenceEntity" />-->
+        <result column="LICENCE_NAME" property="entName" />
+        <result column="LICENCE_SOURCE" property="licenceSource" />
+        <result column="LICENCE_TYPE" property="licenceType" />
+        <result column="LICENCE_SN" property="licenceSn" />
+        <result column="REASON_CODE" property="reason" />
+        <result column="SIGN_TIME" property="signTime" />
+        <result column="LICENCE_SIGN_TIME_STR" property="licenceSignTimeStr" />
+        <result column="STATE_CODE" property="state" />
+        <result column="UPDATE_TIME" property="updateTime" />
+</resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+    ID, AREA_CODE, CREATE_TIME, LICENCE_13, LICENCE_17, LICENCE_91, LICENCE_ENTITY, LICENCE_NAME, LICENCE_SOURCE, LICENCE_TYPE, LICENCE_SN, REASON_CODE, SIGN_TIME, LICENCE_SIGN_TIME_STR, STATE_CODE, UPDATE_TIME
+</sql>
+        <!--    根据licenceSn查询有效数据    -->
+        <select id="findEffectiveBySn" resultMap="BaseResultMap">
+                select ID,AREA_CODE,CREATE_TIME,LICENCE_13,LICENCE_17,LICENCE_91,LICENCE_ENTITY,LICENCE_NAME,LICENCE_SOURCE,LICENCE_TYPE,LICENCE_SN,REASON_CODE,
+                SIGN_TIME,LICENCE_SIGN_TIME_STR,STATE_CODE
+                from  ${tableName}
+                WHERE LICENCE_SN=#{licenceSn}
+        </select>
+        <!--    根据licenceSn查询有效数据    -->
+        <select id="getEffectiveByOrgCode" resultMap="BaseResultMap">
+        select ID,AREA_CODE,CREATE_TIME,LICENCE_13,LICENCE_17,LICENCE_91,LICENCE_ENTITY,LICENCE_NAME,LICENCE_SOURCE,LICENCE_TYPE,LICENCE_SN,REASON_CODE,
+        SIGN_TIME,LICENCE_SIGN_TIME_STR,STATE_CODE
+        from  ${tableName}
+        WHERE LICENCE_13=#{creditCode}
+</select>
+</mapper>
