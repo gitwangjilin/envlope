@@ -123,7 +123,7 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<build>
-		<finalName>envlp</finalName>
+		<finalName>envlptest</finalName>
 		<plugins>
 
 			<plugin>

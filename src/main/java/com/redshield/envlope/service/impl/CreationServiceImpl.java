@@ -3,7 +3,6 @@ package com.redshield.envlope.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.redshield.envlope.entity.EnterpriseInfo;
-import com.redshield.envlope.entity.UserInfo;
 import com.redshield.envlope.entity.license.RegLicense;
 import com.redshield.envlope.factory.ParseLicenseFactory;
 import com.redshield.envlope.response.EntInfo;
@@ -15,13 +14,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.util.Objects;
 
 /*************************************************************************
  ******
@@ -45,16 +44,17 @@ public class CreationServiceImpl implements CreationService {
 
     @Override
     public String addEnterprise(EnterpriseInfo enterpriseInfo, String environment) {
-        if (StringUtils.isBlank(enterpriseInfo.getEntName())){
+        log.info("注册企业默认入参：{}", enterpriseInfo);
+        if (StringUtils.isBlank(enterpriseInfo.getEntName())) {
             enterpriseInfo.setEntName("测试企业公司");
         }
-        if (StringUtils.isBlank(enterpriseInfo.getIdCardHash())){
-            enterpriseInfo.setIdCardHash(IdCardGenerator.generate(enterpriseInfo.getAreaCode().substring(0,2)));
+        if (StringUtils.isBlank(enterpriseInfo.getIdCardHash())) {
+            enterpriseInfo.setIdCardHash(IdCardGenerator.generate(enterpriseInfo.getAreaCode().substring(0, 2)));
         }
-        if (StringUtils.isBlank(enterpriseInfo.getCreditCode())){
+        if (StringUtils.isBlank(enterpriseInfo.getCreditCode())) {
             enterpriseInfo.setOrgCode(LicenseUtlis.getCreditCode());
         }
-        if (StringUtils.isBlank(enterpriseInfo.getRegCode())){
+        if (StringUtils.isBlank(enterpriseInfo.getRegCode())) {
             enterpriseInfo.setRegCode(LicenseUtlis.getRegCode());
         }
         //手机号
@@ -82,19 +82,25 @@ public class CreationServiceImpl implements CreationService {
         infoXml = infoXml + "<attribute44>" + "http://guojiagongs/public/gsgs/service.gov" + "</attribute44>";
         infoXml = infoXml + "<attribute90>" + enterpriseInfo.getTemplateType() + "</attribute90>";
         infoXml = infoXml + "</firm></licence>";
+        log.info("注册企业参数：{}", infoXml);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("infoXml", infoXml);
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(params, headers);
-//        ResponseEntity<String> responseEntity = restTemplate.postForEntity(sendUrl(environment), httpEntity, String.class);
-//        System.out.println(responseEntity.getBody());
-        EntInfo entInfo=EntInfo.builder().entName(enterpriseInfo.getEntName()).idCard(enterpriseInfo.getIdCardHash()).name(enterpriseInfo.getName()).build();
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(sendUrl(environment), httpEntity, String.class);
+        log.info("响应结果：{}", responseEntity);
+        EntInfo entInfo = EntInfo.builder().entName(enterpriseInfo.getEntName()).idCard(enterpriseInfo.getIdCardHash()).name(enterpriseInfo.getName()).build();
 
         return JSON.toJSONString(entInfo);
     }
 
-
+    /**
+     * 环境地址
+     *
+     * @param environment
+     * @return
+     */
     private static String sendUrl(String environment) {
         switch (environment) {
             case "预生产环境":

@@ -5,6 +5,8 @@ import com.redshield.envlope.constant.TemplateType;
 import com.redshield.envlope.entity.EnterpriseInfo;
 import com.redshield.envlope.entity.license.RegLicense;
 import com.redshield.envlope.entity.license.RegTypeALicense;
+import com.redshield.envlope.entity.license.RegTypeBLicense;
+import com.redshield.envlope.entity.license.RegTypeCLicense;
 
 /*******************************************************************************
  * - Copyright (c)  2018  gla.com
@@ -22,8 +24,12 @@ public class ParseLicenseFactory {
 
     public static RegLicense parse(String entity, EnterpriseInfo enterpriseInfo) {
         String type = enterpriseInfo.getTemplateType();
-        if (type.substring(0,1).indexOf(TemplateType.LICENSE_A) != -1) {
-            return new RegTypeALicense(enterpriseInfo,entity);
+        if (type.substring(0, 1).indexOf(TemplateType.LICENSE_A) != -1) {
+            return new RegTypeALicense(enterpriseInfo, entity);
+        } else if (type.substring(0, 1).indexOf(TemplateType.LICENSE_B) != -1) {
+            return new RegTypeBLicense(enterpriseInfo, entity);
+        } else if (type.substring(0, 1).indexOf(TemplateType.LICENSE_C) != -1) {
+            return new RegTypeCLicense(enterpriseInfo, entity);
         }
 //		} else if (type.indexOf(TemplateType.LICENSE_B) != -1) {
 //			return new BizTypeBLicense(entity);

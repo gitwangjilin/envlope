@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8666
 pki-config:
   dll-name: libph_sdf.so
   pki-key-lable: 14
