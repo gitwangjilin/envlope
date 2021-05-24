@@ -21,30 +21,31 @@ spring:
     #查询系统数据库
     bizqry:
       driver-class-name: dm.jdbc.driver.DmDriver
-      jdbc-url: jdbc:dm://192.168.99.35:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
+      jdbc-url: jdbc:dm://13.9.1.56:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
+#      jdbc-url: jdbc:dm://192.168.99.35:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
       username: LICENCE_APP
       password: cntrust123
-
-    #验证系统数据库
-    auth:
-      driver-class-name: dm.jdbc.driver.DmDriver
-      jdbc-url: jdbc:dm://192.168.99.35:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
-      username: LICENCE_AUTH
-      password: cntrust123
-
-    #受理数据库
-    bizlicence:
-      driver-class-name: dm.jdbc.driver.DmDriver
-      jdbc-url: jdbc:dm://192.168.99.34:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
-      username: LICENCE_MANAGER
-      password: cntrust123
-
-    #小程序数据库
-    littlerprogrammer:
-      driver-class-name: dm.jdbc.driver.DmDriver
-      jdbc-url: jdbc:dm://192.168.99.36:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
-      username: MYBATIS
-      password: cntrust123
+#
+#    #验证系统数据库
+#    auth:
+#      driver-class-name: dm.jdbc.driver.DmDriver
+#      jdbc-url: jdbc:dm://192.168.99.35:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
+#      username: LICENCE_AUTH
+#      password: cntrust123
+#
+#    #受理数据库
+#    bizlicence:
+#      driver-class-name: dm.jdbc.driver.DmDriver
+#      jdbc-url: jdbc:dm://192.168.99.34:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
+#      username: LICENCE_MANAGER
+#      password: cntrust123
+#
+#    #小程序数据库
+#    littlerprogrammer:
+#      driver-class-name: dm.jdbc.driver.DmDriver
+#      jdbc-url: jdbc:dm://192.168.99.36:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
+#      username: MYBATIS
+#      password: cntrust123
 mybatis:
   # 实体扫描，多个package用逗号或者分号分隔
   type-aliases-package: com.redshield.envlope.entity

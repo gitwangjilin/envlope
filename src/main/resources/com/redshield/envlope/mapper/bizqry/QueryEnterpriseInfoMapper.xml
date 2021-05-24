@@ -27,7 +27,25 @@
         *
         from Phone_info
         <where>
-            and IDCARD_HASH = #{idCardHash}
+             IDCARD_HASH = #{idCardHash}
+        </where>
+    </select>
+    <!--  查询法人执照列表  -->
+    <select id="findUnisid" resultMap="BaseResultMap">
+        select
+        *
+        from Phone_info
+        <where>
+            and LICENCE_13 = #{unisid}
+        </where>
+    </select>
+    <!--  查询法人执照列表  -->
+    <select id="getIdCardHashAndAreaCodeEntInfo" resultMap="BaseResultMap">
+        select
+        *
+        from Phone_info
+        <where>
+            IDCARD_HASH = #{idCardHash} and REG_ORG = #{areaCode}
         </where>
     </select>
 </mapper>

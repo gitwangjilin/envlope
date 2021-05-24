@@ -34,7 +34,7 @@ public class AuthController {
 
 
     @GetMapping("queryIdCard")
-    @ApiOperation(value = "查询系统-身份证查企业信息")
+    @ApiOperation(value = "身份证查企业信息")
     @ApiImplicitParams(
             {
                     @ApiImplicitParam(name = "idCardHash", value = "身份证号", dataType = "String", required = true),
@@ -44,15 +44,26 @@ public class AuthController {
         return authService.getEntInfo(idCardHash);
     }
 
-    @GetMapping("verifySn")
-    @ApiOperation(value = "验证系统-有效执照")
+    @GetMapping("统一社会信用代码")
+    @ApiOperation(value = "统一社会信用代码查企业信息")
     @ApiImplicitParams(
             {
-                    @ApiImplicitParam(name = "licenseSn", value = "sn", dataType = "String", required = true),
+                    @ApiImplicitParam(name = "unisid", value = "统一社会信用代码", dataType = "String", required = true),
             }
     )
-    public String verifySn(String licenseSn) {
-        return authService.verifySn(licenseSn);
+    public String queryUnisid(String unisid) {
+        return authService.getUnisidEntInfo(unisid);
     }
 
+    @GetMapping("身份证号和地址编码")
+    @ApiOperation(value = "身份证号和地址编码")
+    @ApiImplicitParams(
+            {
+                    @ApiImplicitParam(name = "idCardHash", value = "统一社会信用代码", dataType = "String", required = true),
+                    @ApiImplicitParam(name = "areaCode", value = "地区编码", dataType = "String", required = true),
+            }
+    )
+    public String queryUnisid(String idCardHash, String areaCode) {
+        return authService.getIdCardHashAndAreaCodeEntInfo(idCardHash, areaCode);
+    }
 }

@@ -83,6 +83,7 @@ public class CertController {
             subjectCN.setSubjectOid(subjectsLists.get(i).getSubjectOid());
             subjectCN.setSubjectValue(subjectsLists.get(i).getSubjectValue());
             subjectCN.setSubjectCoding(ExtentionObject.stringcode.utf_code);
+//            subjectCN.s
             subjects[i] = subjectCN;
         }
         requ.setSubject(subjects);
@@ -116,7 +117,6 @@ public class CertController {
         rootCertKey.setKeyLength(256);
         rootCertKey.setKeyPasswd(pkiConfig.getPkiKeyPasswd());
         rootCertKey.setPkidllName(pkiConfig.getDllName());
-
         SimpleDateFormat formate = new SimpleDateFormat("yyyyMMddHHmmss");
 
         SignP10Ext caP10 = new SignP10Ext();

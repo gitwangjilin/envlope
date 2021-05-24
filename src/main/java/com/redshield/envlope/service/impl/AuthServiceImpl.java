@@ -1,5 +1,6 @@
 package com.redshield.envlope.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.redshield.envlope.entity.Effective;
 import com.redshield.envlope.entity.QueryEnterpriseInfo;
 import com.redshield.envlope.mapper.auth.EffectiveMapper;
@@ -40,13 +41,24 @@ public class AuthServiceImpl implements AuthService {
     public String getEntInfo(String idCardHash) {
         String hash = sm3HashService.getSm3Hash(idCardHash);
         List<QueryEnterpriseInfo> idCardAndOrgCode = queryEnterpriseInfoMapper.findIdCardAndOrgCode(hash);
-        return idCardAndOrgCode.toString();
+        return JSON.toJSONString(idCardAndOrgCode);
     }
 
     @Override
     public String verifySn(String licenseSn) {
         Effective effectiveBySn = effectiveMapper.findEffectiveBySn("EFFECTIVE", licenseSn);
         return effectiveBySn.toString();
+    }
+
+    @Override
+    public String getUnisidEntInfo(String unisid) {
+        return JSON.toJSONString(queryEnterpriseInfoMapper.findUnisid(unisid));
+    }
+
+    @Override
+    public String getIdCardHashAndAreaCodeEntInfo(String idCardHash, String areaCode) {
+        System.out.println(JSON.toJSONString(queryEnterpriseInfoMapper.getIdCardHashAndAreaCodeEntInfo(sm3HashService.getSm3Hash(idCardHash),areaCode)));
+        return JSON.toJSONString(queryEnterpriseInfoMapper.getIdCardHashAndAreaCodeEntInfo(sm3HashService.getSm3Hash(idCardHash),areaCode));
     }
 //    /**
 //     * 兼容总局有效表和省有效表

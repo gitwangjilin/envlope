@@ -15,4 +15,7 @@ public interface QueryEnterpriseInfoMapper {
     //法人身份核验
     List<QueryEnterpriseInfo> findIdCardAndOrgCode(@Param("idCardHash") String idCard);
 
+    List<QueryEnterpriseInfo>  findUnisid(@Param("unisid")String unisid);
+
+    List<QueryEnterpriseInfo> getIdCardHashAndAreaCodeEntInfo(@Param("idCardHash")String idCardHash, @Param("areaCode")String areaCode);
 }
