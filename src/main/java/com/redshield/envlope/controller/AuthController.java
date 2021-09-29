@@ -66,4 +66,5 @@ public class AuthController {
     public String queryUnisid(String idCardHash, String areaCode) {
         return authService.getIdCardHashAndAreaCodeEntInfo(idCardHash, areaCode);
     }
+
 }

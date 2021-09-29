@@ -6,11 +6,13 @@ import com.redshield.envlope.entity.EnterpriseInfo;
 import com.redshield.envlope.entity.license.RegLicense;
 import com.redshield.envlope.factory.ParseLicenseFactory;
 import com.redshield.envlope.response.EntInfo;
+import com.redshield.envlope.response.Respone;
 import com.redshield.envlope.service.CreationService;
 import com.redshield.envlope.utils.IdCardGenerator;
 import com.redshield.envlope.utils.LicenseUtlis;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -42,8 +44,11 @@ public class CreationServiceImpl implements CreationService {
     @Resource
     RestTemplate restTemplate;
 
+//    @Value("${full-char-converter}")
+//    private String fullCharConverter;
+
     @Override
-    public String addEnterprise(EnterpriseInfo enterpriseInfo, String environment) {
+    public Respone addEnterprise(EnterpriseInfo enterpriseInfo, String environment) {
         log.info("注册企业默认入参：{}", enterpriseInfo);
         if (StringUtils.isBlank(enterpriseInfo.getEntName())) {
             enterpriseInfo.setEntName("测试企业公司");
@@ -64,7 +69,8 @@ public class CreationServiceImpl implements CreationService {
         infoXml = infoXml + "<attribute500>" + enterpriseInfo.getSubjectL() + "</attribute500>";
         infoXml = infoXml + "<attribute501>" + enterpriseInfo.getSubjectS() + "</attribute501>";
         infoXml = infoXml + "<attribute504>" + enterpriseInfo.getAreaCode() + "</attribute504>";
-        infoXml = infoXml + "<attribute13>" + enterpriseInfo.getOrgCode() + "</attribute13>";
+        infoXml = infoXml + "<attribute13>" + enterpriseInfo.getCreditCode() + "</attribute13>";
+        infoXml = infoXml + "<attribute16>" + "123123123" + "</attribute16>";
         infoXml = infoXml + "<attribute17>" + enterpriseInfo.getRegCode() + "</attribute17>";
         infoXml = infoXml + "<attribute18>" + enterpriseInfo.getEntName() + "</attribute18>";
         infoXml = infoXml + "<attribute19>" + "电子营业执照" + "</attribute19>";
@@ -90,9 +96,9 @@ public class CreationServiceImpl implements CreationService {
         HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(params, headers);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(sendUrl(environment), httpEntity, String.class);
         log.info("响应结果：{}", responseEntity);
-        EntInfo entInfo = EntInfo.builder().entName(enterpriseInfo.getEntName()).idCard(enterpriseInfo.getIdCardHash()).name(enterpriseInfo.getName()).build();
-
-        return JSON.toJSONString(entInfo);
+        String name =  StringUtils.isBlank(enterpriseInfo.getName()) ?"张某": enterpriseInfo.getName();
+        EntInfo entInfo = EntInfo.builder().entName(enterpriseInfo.getEntName()).idCard(enterpriseInfo.getIdCardHash()).name(name).build();
+        return Respone.success(entInfo);
     }
 
     /**
@@ -106,7 +112,7 @@ public class CreationServiceImpl implements CreationService {
             case "预生产环境":
                 return "http://172.18.151.31:9090/enterprise/registerOrChange";
             case "测试环境":
-                return "http://192.168.100.113:8083/enterprise/registerOrChange";
+                return "http://192.168.99.31:9090/enterprise/registerOrChange";
             case "开发环境":
                 return "http://192.168.100.113:8083/enterprise/registerOrChange";
             default:

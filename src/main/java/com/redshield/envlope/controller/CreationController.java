@@ -3,9 +3,8 @@ package com.redshield.envlope.controller;
 
 import com.redshield.envlope.constant.TypeEnum;
 import com.redshield.envlope.entity.EnterpriseInfo;
+import com.redshield.envlope.response.Respone;
 import com.redshield.envlope.service.CreationService;
-import com.redshield.envlope.utils.IdCardGenerator;
-import com.redshield.envlope.utils.LicenseUtlis;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -40,42 +39,6 @@ public class CreationController {
     @Resource
     CreationService creationService;
 
-    @ApiOperation(value = "姓名身份证号手机号", notes = "姓名身份证号手机号")
-    @GetMapping("addNameIdcardPhone")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "姓名", required = true),
-            @ApiImplicitParam(name = "areaCdoe", value = "地区", required = true),
-            @ApiImplicitParam(name = "entName", value = "企业名称", required = true),
-            @ApiImplicitParam(name = "idcard", value = "身份证号", required = true),
-            @ApiImplicitParam(name = "templateType", value = "企业模板"),
-            @ApiImplicitParam(name = "aa", value = "1：预生产，2：测试环境。", paramType = "query",
-                    allowableValues = "0(开发环境),1(测试环境),2(预生产环境)"),
-            @ApiImplicitParam(name = "entTemplateType", value = "企业类型"),
-            @ApiImplicitParam(name = "environment", value = "1：预生产，2：测试环境。", required = true)
-    })
-    public String addNameIdcardPhone(String name, String entName, String idcard, String aa, String areaCdoe,
-                                     String templateType, String entTemplateType) {
-        System.out.println(aa.substring(0, 1));
-        EnterpriseInfo enterpriseInfo = new EnterpriseInfo();
-        enterpriseInfo.setAreaCode(areaCdoe);
-        enterpriseInfo.setSubjectL("天津");
-        enterpriseInfo.setSubjectS("天津");
-        enterpriseInfo.setName(name);
-        enterpriseInfo.setOrgCode(idcard);
-        enterpriseInfo.setRegCode(LicenseUtlis.getRegCode());
-        enterpriseInfo.setIdCardHash(IdCardGenerator.generate(areaCdoe.substring(0,2)));
-        enterpriseInfo.setEntName(entName);
-        enterpriseInfo.setTemplateType("A");
-        if (StringUtils.isNotBlank(templateType)) {
-            enterpriseInfo.setTemplateType(templateType);
-        }
-        enterpriseInfo.setEntTemplateType("内资公司");
-        if (StringUtils.isNotBlank(templateType)) {
-            enterpriseInfo.setEntTemplateType(entTemplateType);
-        }
-        return creationService.addEnterprise(enterpriseInfo, aa);
-    }
-
     @ApiOperation(value = "A类型企业创建")
     @GetMapping("aType")
     @ApiImplicitParams({
@@ -86,7 +49,7 @@ public class CreationController {
             @ApiImplicitParam(name = "idcard", value = "身份证号"),
             @ApiImplicitParam(name = "regCap", value = "注册资本(2000万元)"),
             @ApiImplicitParam(name = "dom", value = "住所(测试住所地址)"),
-            @ApiImplicitParam(name = "foundDate", value = "成立日期(当天)"),
+            @ApiImplicitParam(name = "foundDate", value = "成立日期(当天)格式((2020年02月22日))"),
             @ApiImplicitParam(name = "bizTerm", value = "营业期限(2020年02月22日)"),
             @ApiImplicitParam(name = "termTo", value = "期限至(2038年08月12日)"),
             @ApiImplicitParam(name = "mgrScope", value = "经营范围(企业依法自主选择经营项目，开展经营活动-经营范围)"),
@@ -94,14 +57,14 @@ public class CreationController {
                     allowableValues = "开发环境,测试环境,预生产环境"),
             @ApiImplicitParam(name = "entTemplateType", value = "内资公司")
     })
-    public String aType(TypeEnum type, String name, String entName, String idcard, String regCap, String dom,
-                        String foundDate, String bizTerm, String termTo,String creditCode,String regCode,
-                        String mgrScope, String environment, String entTemplateType) {
+    public Respone aType(TypeEnum type, String name, String entName, String idcard, String regCap, String dom,
+                         String foundDate, String bizTerm, String termTo, String creditCode, String regCode,
+                         String mgrScope, String environment, String entTemplateType) {
         EnterpriseInfo enterpriseInfo = new EnterpriseInfo();
         enterpriseInfo.setAreaCode(type.getAreacode());
         enterpriseInfo.setSubjectL(type.getType());
         enterpriseInfo.setSubjectS(type.getType());
-        enterpriseInfo.setOrgCode(creditCode);
+        enterpriseInfo.setCreditCode(creditCode);
         enterpriseInfo.setRegCode(regCode);
         enterpriseInfo.setName(name);
         enterpriseInfo.setEntName(entName);
@@ -138,14 +101,14 @@ public class CreationController {
                     allowableValues = "开发环境,测试环境,预生产环境"),
             @ApiImplicitParam(name = "entTemplateType", value = "内资非公司企业")
     })
-    public String bType(TypeEnum type, String name, String entName, String idcard, String regFund, String dom,
+    public Respone bType(TypeEnum type, String name, String entName, String idcard, String regFund, String dom,
                         String foundDate, String mgrTerm, String termTo,String creditCode,String regCode,
                         String mgrScope, String environment, String entTemplateType) {
         EnterpriseInfo enterpriseInfo = new EnterpriseInfo();
         enterpriseInfo.setAreaCode(type.getAreacode());
         enterpriseInfo.setSubjectL(type.getType());
         enterpriseInfo.setSubjectS(type.getType());
-        enterpriseInfo.setOrgCode(creditCode);
+        enterpriseInfo.setCreditCode(creditCode);
         enterpriseInfo.setRegCode(regCode);
         enterpriseInfo.setName(name);
         enterpriseInfo.setEntName(entName);
@@ -181,14 +144,14 @@ public class CreationController {
                     allowableValues = "开发环境,测试环境,预生产环境"),
             @ApiImplicitParam(name = "entTemplateType", value = "合伙企业")
     })
-    public String cType(TypeEnum type, String name, String entName, String idcard, String mainMgrLocation,
+    public Respone cType(TypeEnum type, String name, String entName, String idcard, String mainMgrLocation,
                         String foundDate, String partnerTerm, String termTo,String creditCode,String regCode,
                         String mgrScope, String environment, String entTemplateType) {
         EnterpriseInfo enterpriseInfo = new EnterpriseInfo();
         enterpriseInfo.setAreaCode(type.getAreacode());
         enterpriseInfo.setSubjectL(type.getType());
         enterpriseInfo.setSubjectS(type.getType());
-        enterpriseInfo.setOrgCode(creditCode);
+        enterpriseInfo.setCreditCode(creditCode);
         enterpriseInfo.setRegCode(regCode);
         enterpriseInfo.setName(name);
         enterpriseInfo.setEntName(entName);
@@ -204,27 +167,6 @@ public class CreationController {
         }
         enterpriseInfo.setTemplateType("C");
         return creationService.addEnterprise(enterpriseInfo, environment);
-//        return null;
-    }
-    @ApiOperation(value = "注册企业（默认A类型企业）")
-    @GetMapping("test")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "environment", value = "1：预生产，2：测试环境。", paramType = "query",
-                    allowableValues = "0(开发环境),1(测试环境),2(预生产环境)")
-    })
-    public String test(TypeEnum type, String environment) {
-        EnterpriseInfo enterpriseInfo = new EnterpriseInfo();
-        enterpriseInfo.setAreaCode(type.getAreacode());
-        enterpriseInfo.setEntTemplateType("内资公司");
-        enterpriseInfo.setSubjectL(type.getType());
-        enterpriseInfo.setSubjectS(type.getType());
-        enterpriseInfo.setOrgCode(LicenseUtlis.getCreditCode());
-        enterpriseInfo.setRegCode(LicenseUtlis.getRegCode());
-        enterpriseInfo.setIdCardHash(IdCardGenerator.generate());
-        enterpriseInfo.setEntName("智慧金钥匙科技有限公司");
-        enterpriseInfo.setTemplateType("A");
-//        return creationService.addEnterprise(enterpriseInfo, environment.substring(0,1));
-        return null;
     }
 
 }

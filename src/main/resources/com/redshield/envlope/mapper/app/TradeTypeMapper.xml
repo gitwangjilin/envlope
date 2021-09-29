@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redshield.envlope.mapper.app.TradeTypeMapper">
+
+    <resultMap type="com.redshield.envlope.response.TradeType" id="allRM">
+        <id property="id" column="AID"/>
+        <result property="name" column="ANAME"/>
+        <result property="code" column="ACODE"/>
+        <result property="parent" column="APARENT"/>
+        <result property="parentCode" column="APARENTCODE"/>
+        <result property="tradeIndex" column="ATRADEINDEX"/>
+    </resultMap>
+<!--    <resultMap type="com.redshield.envlope.response.TradeTypeAll" id="aRM">-->
+<!--        <id property="aId" column="AID"/>-->
+<!--        <result property="aName" column="ANAME"/>-->
+<!--        <result property="aCode" column="ACODE"/>-->
+<!--    </resultMap>-->
+    <resultMap type="com.redshield.envlope.response.TradeTypeAll" id="aRM">
+        <id property="aId" column="AID"/>
+        <id property="bId" column="BID"/>
+        <id property="cId" column="CID"/>
+        <result property="aName" column="ANAME"/>
+        <result property="aCode" column="ACODE"/>
+        <result property="bCode" column="BCODE"/>
+        <result property="bName" column="BNAME"/>
+        <result property="bParent" column="BPARENT"/>
+        <result property="bParentCode" column="BPARENTCODE"/>
+        <result property="bTradeIndex" column="BTRADEINDEX"/>
+        <result property="cCode" column="CCODE"/>
+        <result property="cName" column="CNAME"/>
+        <result property="cParent" column="CPARENT"/>
+        <result property="cParentCode" column="CPARENTCODE"/>
+        <result property="cTradeIndex" column="CTRADEINDEX"/>
+        <collection property="list" resultMap="bRM"/>
+    </resultMap>
+    <resultMap type="com.redshield.envlope.response.TradeType" id="bRM">
+        <id property="id" column="BID"/>
+        <result property="name" column="BNAME"/>
+        <result property="code" column="BCODE"/>
+        <result property="parent" column="BPARENT"/>
+        <result property="parentCode" column="BPARENTCODE"/>
+        <result property="tradeIndex" column="BTRADEINDEX"/>
+        <collection property="list" resultMap="cRM"/>
+    </resultMap>
+    <resultMap type="com.redshield.envlope.response.TradeType" id="cRM">
+        <id property="id" column="CID"/>
+        <result property="name" column="CNAME"/>
+        <result property="code" column="CCODE"/>
+        <result property="parent" column="CPARENT"/>
+        <result property="parentCode" column="CPARENTCODE"/>
+        <result property="tradeIndex" column="CTRADEINDEX"/>
+
+    </resultMap>
+    <select id="findAll" parameterType="map" resultMap="allRM">
+        select B.T_ID          AID,
+               B.T_CODE        ACODE,
+               B.T_NAME        ANAME,
+               B.T_PARENT      APARENT,
+               B.T_PARENTCODE  APARENTCODE,
+               B.T_TRADE_INDEX ATRADEINDEX
+        from TRADE_TYPE B
+        where 1 = 1
+    </select>
+    <!-- 带条件查询 -->
+    <select id="find" parameterType="map" resultMap="aRM">
+        select A.T_ID          AID,
+               A.T_NAME        ANAME,
+               A.T_CODE        ACODE,
+               B.T_ID          BID,
+               B.T_CODE        BCODE,
+               B.T_NAME        BNAME,
+               B.T_PARENT      BPARENT,
+               B.T_PARENTCODE  BPARENTCODE,
+               B.T_TRADE_INDEX BTRADEINDEX,
+               C.T_ID          CID,
+               C.T_CODE        CCODE,
+               C.T_NAME        CNAME,
+               C.T_PARENT      CPARENT,
+               C.T_PARENTCODE  CPARENTCODE,
+               C.T_TRADE_INDEX CTRADEINDEX
+        FROM TRADE_TYPE A
+                 LEFT JOIN TRADE_TYPE B ON A.T_ID = B.T_PARENT
+                 LEFT JOIN TRADE_TYPE C ON B.T_ID = C.T_PARENT
+        WHERE A.T_PARENTCODE = '-1'
+        ORDER BY BID, CID
+    </select>
+    <select id="findByCode" parameterType="java.lang.String" resultType="String">
+        select T_NAME
+        from TRADE_TYPE
+        where T_CODE = #{code,jdbcType=VARCHAR}
+    </select>
+    <insert id="insert" useGeneratedKeys="true">
+        insert into MYBATIS.TRADE_TYPE (T_ID, T_NAME, T_CODE, T_PARENT, T_PARENTCODE, T_TRADE_INDEX)
+        values (#{id},
+                #{name},
+                #{code},
+                #{parent},
+                #{parentCode},
+                #{tradeIndex})
+    </insert>
+    <delete id="delete">
+        delete
+        from MYBATIS.TRADE_TYPE;
+    </delete>
+</mapper>

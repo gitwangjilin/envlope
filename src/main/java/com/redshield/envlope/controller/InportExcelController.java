@@ -3,14 +3,17 @@ package com.redshield.envlope.controller;
 
 import com.redshield.envlope.entity.UserDto;
 import com.redshield.envlope.excel.ExcelUtil;
+import com.redshield.envlope.service.InportExcelService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.UnsupportedEncodingException;
+import javax.annotation.Resource;
 import java.util.List;
 
 
@@ -32,8 +35,11 @@ import java.util.List;
 @Api(tags = "导入Excel文件")
 @Slf4j
 public class InportExcelController {
-    @Autowired
+    @Resource
     private ExcelUtil excelUtil;
+
+    @Resource
+    InportExcelService inportExcelService;
 
     @PostMapping(value = "/uploadExcel", consumes = "multipart/*", headers = "content-type=multipart/form-data")
     @ApiOperation(value = "用户信息Excel导入数据", notes = "用户信息Excel导入数据", httpMethod = "POST")
@@ -53,15 +59,18 @@ public class InportExcelController {
         return "导入成功";
     }
 
-    public static void main(String[] args) {
-        byte[] encodeBase64 = new byte[0];
-        try {
-            encodeBase64 = org.apache.commons.codec.binary.Base64.encodeBase64("vkLPwVNCFnY/CGLe5p1RRv9CXy93R7r9RBJsnslRjGQ=".getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        System.out.println("vkLPwVNCFnY/CGLe5p1RRv9CXy93R7r9RBJsnslRjGQ=".length());
-        System.out.println("RESULT: " + new String(encodeBase64));
-        System.out.println("RESULT: " + new String(encodeBase64).length());
+    @GetMapping("tradeType")
+    @ApiOperation(value = "同步授权树")
+    public String tradeType() {
+        return inportExcelService.tradeType();
     }
+//    SwaggerBootstrapUiDownload.txt.crdownload
+
+    @GetMapping("tradeTypeAll")
+    @ApiOperation(value = "获取授权树", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<byte[]> tradeTypeAll() {
+        ResponseEntity<byte[]> responseEntity = inportExcelService.tradeTypeAll();
+        return responseEntity;
+    }
+
 }

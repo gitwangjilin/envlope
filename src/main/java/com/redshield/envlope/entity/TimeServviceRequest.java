@@ -21,7 +21,8 @@ public class TimeServviceRequest {
     /**
      * PDF摘要的16进制串
      */
-    private String imprintHex;
+
+    private String imprint_hex;
     /**
      * sm3算法
      */

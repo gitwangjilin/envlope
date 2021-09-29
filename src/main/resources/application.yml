@@ -40,12 +40,12 @@ spring:
 #      username: LICENCE_MANAGER
 #      password: cntrust123
 #
-#    #小程序数据库
-#    littlerprogrammer:
-#      driver-class-name: dm.jdbc.driver.DmDriver
-#      jdbc-url: jdbc:dm://192.168.99.36:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
-#      username: MYBATIS
-#      password: cntrust123
+    #小程序数据库
+    littlerprogrammer:
+      driver-class-name: dm.jdbc.driver.DmDriver
+      jdbc-url: jdbc:dm://172.18.151.34:5236?useUnicode=true&useSSL=false&characterEncoding=utf8
+      username: MYBATIS
+      password: cntrust123
 mybatis:
   # 实体扫描，多个package用逗号或者分号分隔
   type-aliases-package: com.redshield.envlope.entity
@@ -66,3 +66,27 @@ knife4j:
     enableRequestCache: false
 system:
  cert: MIICDjCCAbWgAwIBAgIIICEDJwAAARcwCgYIKoEcz1UBg3UwPjE8MDoGA1UECgwz5Lit5Y2O5Lq65rCR5YWx5ZKM5Zu95Zu95a625bel5ZWG6KGM5pS/566h55CG5oC75bGAMB4XDTIxMDMyNzAyMzkyMloXDTMxMDMyNzAyMzkyMlowfjELMAkGA1UEBgwCQ04xDzANBgNVBAcMBuWMl+S6rDEhMB8GA1UECgwY5biC5Zy655uR552j566h55CG5oC75bGAMRUwEwYDVQQLDAzkv6Hmga/kuK3lv4MxJDAiBgNVBAMMG+aVsOaNruS4reW/g+aOpeWPo+acjeWKoeWZqDBZMBMGByqGSM49AgEGCCqBHM9VAYItA0IABMb+1QCPG8J+9mCpGdfEqk3j0dncegHnvzeHBOHB7mmStufyWMTLwjS5BXIZiSmrJdmJxd2de1OfYBVLQwsSQ8OjXTBbMAwGA1UdEwQFMAMBAf8wCwYDVR0PBAQDAgEGMB8GA1UdIwQYMBaAFMiKA/q3R18Z+K3x4pBflgP5TTe9MB0GA1UdDgQWBBRCrES8sOXBJIh51jUl3NQCNHEmVDAKBggqgRzPVQGDdQNHADBEAiBREqs8gNZ/JX5xFnEVU0kqjPRrmA/5QxZEeigDWhfZkwIgbuNbJBEbeaVNnT8Ri/8pyZ9p8H2lyXnPjnN1rcVfuW8=
+apiString:
+#environment:
+#  dev:
+#    -   sys-code: cy
+#        value: 666
+environment:
+  devs:
+      dev: SAIC_BIZ_110100_01,cf7b8b91f04140ae9146616075fe0a53,http://103.59.150.228:40009/authenticationService/httpserver.do
+      uat: SAIC_BIZ_110100_01,cf7b8b91f04140ae9146616075fe0a53,http://103.59.150.228:40009/authenticationService/httpserver.do
+      ut: 12_123
+      prod: 12_123
+#environment:
+#  dev:
+#    - sys-code: cy
+#    - auth-code: 666
+#  uat:
+#    - sys-code: cy
+#    - auth-code: 666
+#  ut:
+#    - sys-code: cy
+#    - auth-code: 666
+#  prod:
+#    - sys-code: cy
+#    - auth-code: 666

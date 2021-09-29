@@ -44,7 +44,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("密码机相关功能")
                 .description("密码机相关功能")
-                .termsOfServiceUrl("http://localhost:8080/doc.html")
+                .termsOfServiceUrl("http://localhost:8666/doc.html")
                 .contact(new Contact("", "http://localhost:8080/doc.html", ""))
                 .version("V1.0")
                 .build();

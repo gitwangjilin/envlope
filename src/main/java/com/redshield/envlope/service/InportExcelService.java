@@ -1,13 +1,13 @@
 package com.redshield.envlope.service;
 
+import org.springframework.http.ResponseEntity;
 
-import com.redshield.envlope.entity.EnterpriseInfo;
-import com.redshield.envlope.response.Respone;
+import javax.servlet.http.HttpServletResponse;
 
 /*************************************************************************
  ******
- * - Copyright (c) 2021 redshield.com
- * - File Name: CreationService
+ * - Copyright (c) 2021 shangzhao.com
+ * - File Name: InportExcelService
  * - @Author: WangJiLIn
  * - Description:
  * 接⼝描述
@@ -15,9 +15,11 @@ import com.redshield.envlope.response.Respone;
  *
  * - History:
  * Date        Author          Modification
- * 2021/1/8   WangJiLin     Create the current class
+ * 2021/9/26   WangJiLin     Create the current class
  *************************************************************************
  ******/
-public interface CreationService {
-    Respone addEnterprise(EnterpriseInfo enterpriseInfo, String environment);
+public interface InportExcelService {
+    String tradeType();
+
+    ResponseEntity<byte[]> tradeTypeAll();
 }
